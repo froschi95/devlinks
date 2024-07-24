@@ -56,7 +56,7 @@ export default function PreviewProfile({
               <a
                 key={index}
                 href={link.url}
-                className={`flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium ${getLinkStyles(
+                className={`flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity ${getLinkStyles(
                   link.platform
                 )}`}
               >

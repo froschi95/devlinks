@@ -10,7 +10,7 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import PublicPreview from "../components/PublicPreview";
+import PublicPreview from "../components/profile/PublicPreview";
 import { Profile, Link } from "../types";
 import { useRouter } from "next/navigation";
 

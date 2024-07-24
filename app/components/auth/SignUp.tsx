@@ -66,11 +66,15 @@ const SignUp = () => {
         <input
           id="email"
           {...register("email", { required: "Can't be empty" })}
-          className="input w-full pl-10 py-2 border rounded-lg"
+          className={`h-12 w-full pl-10 py-2 border border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#633CFF] focus:shadow-customInput focus:ring-1 focus:ring-[#633CFF] ${
+            errors.email
+              ? "border-[#FF3939] focus:border-[#FF3939] focus:ring-[#FF3939] focus:shadow-none"
+              : ""
+          }`}
           placeholder="e.g. alex@email.com"
         />
         {errors.email && (
-          <span className="absolute text-red-600 text-xs mt-1 right-3 bottom-3">
+          <span className="absolute text-[#FF3939] text-xs mt-1 right-3 bottom-3">
             {errors.email.message}
           </span>
         )}
@@ -94,11 +98,15 @@ const SignUp = () => {
             },
           })}
           type="password"
-          className="input w-full pl-10 py-2 border rounded-lg"
+          className={`h-12 w-full pl-10 py-2 border border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#633CFF] focus:shadow-customInput focus:ring-1 focus:ring-[#633CFF] ${
+            errors.password
+              ? "border-[#FF3939] focus:border-[#FF3939] focus:ring-[#FF3939] focus:shadow-none"
+              : ""
+          }`}
           placeholder="At least 8 characters"
         />
         {errors.password && (
-          <span className="absolute text-red-600 text-xs mt-1 right-3 bottom-3">
+          <span className="absolute text-[#FF3939] text-xs mt-1 right-3 bottom-3">
             {errors.password.message}
           </span>
         )}
@@ -122,11 +130,15 @@ const SignUp = () => {
             validate: (value) => value === password || "Passwords do not match",
           })}
           type="password"
-          className="input w-full pl-10 py-2  border rounded-lg"
+          className={`h-12 w-full pl-10 py-2 border border-[#D9D9D9] rounded-lg focus:outline-none focus:border-[#633CFF] focus:shadow-customInput focus:ring-1 focus:ring-[#633CFF] ${
+            errors.confirmPassword
+              ? "border-[#FF3939] focus:border-[#FF3939] focus:ring-[#FF3939] focus:shadow-none"
+              : ""
+          }`}
           placeholder="At least 8 characters"
         />
         {errors.confirmPassword && (
-          <span className="absolute text-red-600 text-xs mt-1 right-3 bottom-3">
+          <span className="absolute text-[#FF3939] text-xs mt-1 right-3 bottom-3">
             {errors.confirmPassword.message}
           </span>
         )}

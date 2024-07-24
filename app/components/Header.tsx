@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Logo from "./Logo";
+import Logo from "./icons/Logo";
 import LinksIcon from "./icons/LinksIcon";
 import ProfileIcon from "./icons/ProfileIcon";
 import EyeIcon from "/public/ph_eye-bold.png";

@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../utils/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import PublicPreview from "../components/PublicPreview";
+import PublicPreview from "../components/profile/PublicPreview";
 import { Profile, Link } from "../types";
-import { withAuth } from "../components/WithAuth";
+import { withAuth } from "../components/auth/WithAuth";
 import { v4 as uuidv4 } from "uuid";
 
 const PreviewPage: React.FC = () => {

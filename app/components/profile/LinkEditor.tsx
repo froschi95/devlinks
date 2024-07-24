@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Link } from "../../types";
-import LinkItem from "../LinkItem";
+import LinkItem from "../../link/LinkItem";
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../../utils/firebase";
 
@@ -87,7 +87,7 @@ export default function LinkEditor({ links, setLinks }: LinkEditorProps) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md relative min-h-screen">
+    <div className="bg-white py-6 relative min-h-screen">
       <h2 className="text-3xl font-bold mb-2">Customize your links</h2>
       <p className="text-gray-600 mb-6">
         Add/edit/remove links below and then share all your profiles with the
@@ -99,33 +99,36 @@ export default function LinkEditor({ links, setLinks }: LinkEditorProps) {
       >
         + Add new link
       </button>
-
-      {!links || links.length === 0 ? (
-        <GetStartedSection />
-      ) : (
-        links.map((link, index) => (
-          <LinkItem
-            key={link.id}
-            link={link}
-            index={index + 1}
-            onUpdate={handleUpdateLink}
-            onRemove={handleRemoveLink}
-          />
-        ))
-      )}
-      <div className="fixed mt-6 bottom-4 right-6">
-        <button
-          onClick={handleSave}
-          disabled={!hasUnsavedChanges || isSaving || !links}
-          className={`bg-[#633CFF] text-white py-2 px-4 rounded-md transition-colors ${
-            !hasUnsavedChanges || isSaving || !links
-              ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-[#633CFF]"
-          }`}
-        >
-          {isSaving ? "Saving..." : "Save"}
-        </button>
-        {saveError && <p className="text-red-500 mt-2">{saveError}</p>}
+      <div className="mb-7">
+        {!links || links.length === 0 ? (
+          <GetStartedSection />
+        ) : (
+          links.map((link, index) => (
+            <LinkItem
+              key={link.id}
+              link={link}
+              index={index + 1}
+              onUpdate={handleUpdateLink}
+              onRemove={handleRemoveLink}
+            />
+          ))
+        )}
+      </div>
+      <div className="mt-auto py-6 px-4 sm:px-6 border-t bg-white h-24">
+        <div className="my-auto sm:text-right">
+          <button
+            onClick={handleSave}
+            disabled={!hasUnsavedChanges || isSaving || !links}
+            className={`bg-[#633CFF] text-white font-semibold h-12 w-full sm:w-auto px-6 py-2 rounded-md transition-colors ${
+              !hasUnsavedChanges || isSaving || !links
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-[#633CFF]"
+            }`}
+          >
+            {isSaving ? "Saving..." : "Save"}
+          </button>
+          {saveError && <p className="text-red-500 mt-2">{saveError}</p>}
+        </div>
       </div>
     </div>
   );

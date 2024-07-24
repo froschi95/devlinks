@@ -1,5 +1,5 @@
 import SignUp from "../components/auth/SignUp";
-import Logo from "../components/Logo";
+import Logo from "../components/icons/Logo";
 
 const SignUpPage: React.FC = () => {
   return (
