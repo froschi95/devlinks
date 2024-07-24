@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../utils/firebase";
+import { auth } from "../../utils/firebase";
 import { User } from "firebase/auth";
 
 export function withAuth<P extends JSX.IntrinsicAttributes>(

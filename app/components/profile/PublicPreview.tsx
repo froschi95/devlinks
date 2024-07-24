@@ -1,6 +1,6 @@
-import { Link, Profile } from "./../types";
+import { Link, Profile } from "../../types";
 import Image from "next/image";
-import ArrowRight from "./icons/ArrowRight";
+import ArrowRight from "../icons/ArrowRight";
 
 interface PublicPreviewProps {
   profile?: Profile;
