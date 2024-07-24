@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import LinkEditor from "./components/profile/LinkEditor";
+import LinkEditor from "./components/link/LinkEditor";
 import PreviewProfile from "./components/profile/PreviewProfile";
 import { Link, Profile } from "./types";
 import Header from "./components/Header";

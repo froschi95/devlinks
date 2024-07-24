@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "../types";
+import { Link } from "../../types";
 
 interface LinkFormProps {
   initialData?: Link;

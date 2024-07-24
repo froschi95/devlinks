@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "../types";
+import { Link } from "../../types";
 import Image from "next/image";
 
 interface LinkItemProps {

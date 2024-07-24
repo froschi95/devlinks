@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Link } from "../../types";
-import LinkItem from "../../link/LinkItem";
+import LinkItem from "../link/LinkItem";
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../../utils/firebase";
 
