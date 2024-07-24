@@ -83,7 +83,7 @@ const ProfilePage: React.FC = () => {
             <div className="mt-8 text-center">
               <p
                 onClick={handleLogout}
-                className="px-6 py-2 text-[#737373] hover:text-red-600 transition-colors"
+                className="cursor-pointer px-6 py-2 text-[#737373] hover:text-red-600 transition-colors"
               >
                 Logout
               </p>
