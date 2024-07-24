@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "./utils/firebase";
 
-function Home() {
+const Home: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -82,7 +82,7 @@ function Home() {
     //   </div>
     // </main>
   );
-}
+};
 
 export default withAuth(Home);
 // import LinkEditor from "./components/Dashboard/LinkEditor";
