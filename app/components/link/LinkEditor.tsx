@@ -36,7 +36,7 @@ export default function LinkEditor({ links, setLinks }: LinkEditorProps) {
   const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("Current links state:", links);
+    // console.log("Current links state:", links);
   }, [links]);
 
   const handleAddLink = () => {
@@ -54,7 +54,7 @@ export default function LinkEditor({ links, setLinks }: LinkEditorProps) {
       const newLinks = prevLinks.map((link) =>
         link.id === updatedLink.id ? { ...link, ...updatedLink } : link
       );
-      console.log("Updated links:", newLinks);
+      // console.log("Updated links:", newLinks);
       return newLinks;
     });
     setHasUnsavedChanges(true);
@@ -75,11 +75,11 @@ export default function LinkEditor({ links, setLinks }: LinkEditorProps) {
     try {
       const validLinks = links.filter((link) => link.platform && link.url);
       await setDoc(doc(db, "links", userId), { links: validLinks });
-      setLinks(validLinks); // Update the state to remove invalid links
+      setLinks(validLinks);
       setHasUnsavedChanges(false);
-      console.log("Saved links:", validLinks);
+      // console.log("Saved links:", validLinks);
     } catch (error) {
-      console.error("Error saving links:", error);
+      // console.error("Error saving links:", error);
       setSaveError("Failed to save changes. Please try again.");
     } finally {
       setIsSaving(false);
