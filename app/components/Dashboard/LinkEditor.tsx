@@ -29,9 +29,11 @@ const GetStartedSection = () => (
 
 export default function LinkEditor() {
   const [links, setLinks] = useState<Link[]>([]);
-  const [isAddingLink, setIsAddingLink] = useState(false);
-  const [editingLink, setEditingLink] = useState<Link | null>(null);
+  // const [isAddingLink, setIsAddingLink] = useState(false);
+  // const [editingLink, setEditingLink] = useState<Link | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -80,8 +82,18 @@ export default function LinkEditor() {
     const userId = auth.currentUser?.uid;
     if (!userId) return;
 
-    await setDoc(doc(db, "links", userId), { links });
-    setHasUnsavedChanges(false);
+    setIsSaving(true);
+    setSaveError(null);
+
+    try {
+      await setDoc(doc(db, "links", userId), { links });
+      setHasUnsavedChanges(false);
+    } catch (error) {
+      console.error("Error saving links:", error);
+      setSaveError("Failed to save changes. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -93,7 +105,7 @@ export default function LinkEditor() {
       </p>
       <button
         onClick={handleAddLink}
-        className="w-full py-3 border-2 border-purple-600 text-purple-600 rounded-md mb-6 font-semibold hover:bg-purple-50 transition-colors"
+        className="w-full py-3 border-2 border-[#633CFF] text-[#633CFF] rounded-md mb-6 font-semibold hover:bg-[#EFEBFF] transition-colors"
       >
         + Add new link
       </button>
@@ -111,16 +123,20 @@ export default function LinkEditor() {
           />
         ))
       )}
-      {hasUnsavedChanges && (
-        <div className="fixed bottom-6 right-6">
-          <button
-            onClick={handleSave}
-            className="bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors"
-          >
-            Save
-          </button>
-        </div>
-      )}
+      <div className="fixed mt-6 bottom-4 right-6">
+        <button
+          onClick={handleSave}
+          disabled={!hasUnsavedChanges || isSaving}
+          className={`bg-[#633CFF] text-white py-2 px-4 rounded-md transition-colors ${
+            !hasUnsavedChanges || isSaving
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-[#633CFF]"
+          }`}
+        >
+          {isSaving ? "Saving..." : "Save"}
+        </button>
+        {saveError && <p className="text-red-500 mt-2">{saveError}</p>}
+      </div>
     </div>
   );
 }
