@@ -1,7 +1,7 @@
 import Login from "../components/auth/Login";
 import Logo from "../components/Logo";
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col gap-16 md:gap-[3.1875rem] md:items-center justify-center">
       <div className="px-8">

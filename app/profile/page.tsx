@@ -16,7 +16,7 @@ import {
 import { db, auth } from "../utils/firebase";
 import { withAuth } from "../components/WithAuth";
 
-function ProfilePage() {
+const ProfilePage: React.FC = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [links, setLinks] = useState<Link[]>([]);
 
@@ -87,6 +87,6 @@ function ProfilePage() {
     //   </div>
     // </main>
   );
-}
+};
 
 export default withAuth(ProfilePage);

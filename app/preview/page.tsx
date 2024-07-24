@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import ProfilePreview from "../components/Dashboard/PreviewProfile";
 import { Profile, Link } from "../types";
 
-export default function PreviewPage() {
+const PreviewPage: React.FC = () => {
   const [profile, setProfile] = useState<Profile | undefined>(undefined);
   const [links, setLinks] = useState<Link[]>([]);
 
@@ -33,4 +33,6 @@ export default function PreviewPage() {
       <ProfilePreview profile={profile} links={links} />
     </div>
   );
-}
+};
+
+export default PreviewPage;
