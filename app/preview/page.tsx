@@ -53,7 +53,7 @@ const PreviewPage: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto h-screen">
+    <div className="mx-auto h-screen w-screen">
       <div className="absolute -z-50 top-0 left-0 sm:w-screen h-[22.3rem] bg-[#633CFF] rounded-b-[2rem]"></div>
       <nav className="flex justify-between items-center sm:m-6 p-4 font-semibold bg-white rounded-xl">
         <button className="text-[#633CFF] border border-[#633CFF] px-7 py-3 rounded-lg">
