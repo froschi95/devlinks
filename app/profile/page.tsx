@@ -21,32 +21,32 @@ const ProfilePage: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
 
   useEffect(() => {
-    fetchProfile();
-    fetchLinks();
-  }, []);
-
-  const fetchProfile = async () => {
     const user = auth.currentUser;
     if (user) {
-      const docRef = doc(db, "profiles", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setProfile(docSnap.data() as Profile);
-      }
+      fetchLinks(user.uid);
+      fetchProfile(user.uid);
     }
+  }, []);
+
+  const fetchLinks = (userId: string) => {
+    const userLinksDoc = doc(db, "links", userId);
+
+    onSnapshot(userLinksDoc, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        setLinks(data.links || []);
+      } else {
+        setLinks([]);
+      }
+    });
   };
 
-  const fetchLinks = async () => {
-    onSnapshot(
-      collection(db, "links"),
-      (snapshot: QuerySnapshot<DocumentData>) => {
-        const linksData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setLinks(linksData as Link[]);
-      }
-    );
+  const fetchProfile = async (userId: string) => {
+    const docRef = doc(db, "profiles", userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setProfile(docSnap.data() as Profile);
+    }
   };
 
   const handleSaveProfile = (updatedProfile: Profile) => {

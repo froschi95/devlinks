@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       boxShadow: {
         customInput: "0px 0px 32px 0px rgba(99, 60, 255, 0.25)",
+        customCard: "0px 0px 32px 0px #0000001A",
       },
     },
   },

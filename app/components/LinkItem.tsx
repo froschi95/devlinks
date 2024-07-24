@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "../types";
 import Image from "next/image";
@@ -34,7 +35,7 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    validateInputs();
+    setErrors(validateInputs());
   }, [platform, url]);
 
   useEffect(() => {
@@ -66,8 +67,7 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
       newErrors.url = "Please enter a valid URL";
     }
 
-    setErrors(newErrors);
-    return Object.values(newErrors).every((error) => error === "");
+    return newErrors;
   };
 
   const isValidUrl = (url: string) => {
@@ -81,20 +81,14 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
 
   const handlePlatformChange = (selectedPlatform: string) => {
     setPlatform(selectedPlatform);
-    updateLink({ ...link, platform: selectedPlatform });
+    onUpdate({ ...link, platform: selectedPlatform });
     setIsDropdownOpen(false);
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;
     setUrl(newUrl);
-    updateLink({ ...link, url: newUrl });
-  };
-
-  const updateLink = (updatedLink: Link) => {
-    if (validateInputs()) {
-      onUpdate(updatedLink);
-    }
+    onUpdate({ ...link, url: newUrl });
   };
 
   return (
@@ -120,7 +114,7 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
         <button
           type="button"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className={`w-full p-2 border rounded-md text-[#333333] bg-white text-left flex items-center justify-between ${
+          className={`w-full p-2 border rounded-md text-[#333333] bg-white text-left flex items-center justify-between focus:border-[#633CFF] focus:shadow-customInput ${
             errors.platform ? "border-red-500" : ""
           }`}
         >
@@ -149,7 +143,9 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
             {platforms.map((platformOption) => (
               <button
                 key={platformOption}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center"
+                className={`w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center ${
+                  platformOption === platform ? "text-[#633CFF]" : ""
+                }`}
                 onClick={() => handlePlatformChange(platformOption)}
               >
                 <Image
@@ -168,37 +164,7 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
           <p className="text-red-500 text-xs mt-1">{errors.platform}</p>
         )}
       </div>
-      {/* <div className="mb-4">
-        <label className="block text-xs text-[#333333] font-medium mb-1">
-          Platform
-        </label>
-        <select
-          value={platform}
-          onChange={handlePlatformChange}
-          className={`w-full p-2 border rounded-md text-[#333333] ${
-            errors.platform ? "border-red-500" : ""
-          }`}
-        >
-          <option value="">Select a platform</option>
-          {platforms.map((platformOption) => (
-            <option key={platformOption} value={platformOption}>
-              <span className="flex items-center">
-                <Image
-                  src={`/${platformOption.toLowerCase()}-icon.svg`}
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-5 h-5 mr-2"
-                />
-                {platformOption}
-              </span>
-            </option>
-          ))}
-        </select>
-        {errors.platform && (
-          <p className="text-red-500 text-xs mt-1">{errors.platform}</p>
-        )}
-      </div> */}
+
       <div>
         <label className="block text-xs text-[#333333] font-medium mb-1">
           Link
@@ -208,7 +174,7 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
           value={url}
           onChange={handleUrlChange}
           placeholder="https://www.example.com/username"
-          className={`w-full p-2 border rounded-md ${
+          className={`w-full p-2 border rounded-md focus:border-[#633CFF] focus:shadow-customInput ${
             errors.url ? "border-red-500" : ""
           }`}
         />
@@ -221,72 +187,3 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
 };
 
 export default LinkItem;
-
-// import { useState } from "react";
-// import { Link } from "../types";
-
-// interface LinkItemProps {
-//   link: Link;
-//   index: number;
-//   onUpdate: (link: Link) => void;
-//   onRemove: (id: string) => void;
-// }
-
-// const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
-//   const [platform, setPlatform] = useState(link.platform);
-//   const [url, setUrl] = useState(link.url);
-
-//   const handlePlatformChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     setPlatform(e.target.value);
-//     onUpdate({ ...link, platform: e.target.value });
-//   };
-
-//   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setUrl(e.target.value);
-//     onUpdate({ ...link, url: e.target.value });
-//   };
-
-//   return (
-//     <div className="bg-gray-100 p-4 rounded-md mb-4 text-base text-[#737373]">
-//       <div className="flex justify-between items-center mb-4">
-//         <h3 className="text-lg font-semibold">Link #{index}</h3>
-//         <button
-//           onClick={() => onRemove(link.id)}
-//           className="hover:text-red-500"
-//         >
-//           Remove
-//         </button>
-//       </div>
-//       <div className="mb-4">
-//         <label className="block text-xs text-[#333333] font-medium mb-1">
-//           Platform
-//         </label>
-//         <select
-//           value={platform}
-//           onChange={handlePlatformChange}
-//           className="w-full p-2 border rounded-md text-[#333333]"
-//         >
-//           <option value="">Select a platform</option>
-//           <option value="GitHub">GitHub</option>
-//           <option value="YouTube">YouTube</option>
-//           <option value="LinkedIn">LinkedIn</option>
-//           {/* Add more platform options as needed */}
-//         </select>
-//       </div>
-//       <div>
-//         <label className="block text-xs text-[#333333] font-medium mb-1">
-//           Link
-//         </label>
-//         <input
-//           type="url"
-//           value={url}
-//           onChange={handleUrlChange}
-//           placeholder="https://www.example.com/username"
-//           className="w-full p-2 border rounded-md"
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LinkItem;

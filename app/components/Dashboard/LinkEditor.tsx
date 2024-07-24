@@ -3,16 +3,14 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Link } from "../../types";
-import LinkForm from "../LinkForm";
-// import LinkList from "../LinkList";
 import LinkItem from "../LinkItem";
-import { collection, getDoc, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../../utils/firebase";
 
 const GetStartedSection = () => (
   <div className="text-center py-10">
     <Image
-      src="/path-to-your-image.png"
+      src="/Group 273.svg"
       alt="Get Started"
       width={200}
       height={200}
@@ -27,32 +25,19 @@ const GetStartedSection = () => (
   </div>
 );
 
-export default function LinkEditor() {
-  const [links, setLinks] = useState<Link[]>([]);
-  // const [isAddingLink, setIsAddingLink] = useState(false);
-  // const [editingLink, setEditingLink] = useState<Link | null>(null);
+interface LinkEditorProps {
+  links: Link[] | undefined;
+  setLinks: React.Dispatch<React.SetStateAction<Link[]>>;
+}
+
+export default function LinkEditor({ links, setLinks }: LinkEditorProps) {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      fetchLinks();
-    }
-  }, []);
-
-  const fetchLinks = async () => {
-    const userId = auth.currentUser?.uid;
-    if (!userId) return;
-
-    const docRef = doc(db, "links", userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setLinks(docSnap.data().links || []);
-    } else {
-      setLinks([]);
-    }
-  };
+    console.log("Current links state:", links);
+  }, [links]);
 
   const handleAddLink = () => {
     const newLink: Link = {
@@ -60,34 +45,39 @@ export default function LinkEditor() {
       platform: "",
       url: "",
     };
-    setLinks([...links, newLink]);
+    setLinks((prevLinks) => [...(prevLinks || []), newLink]);
     setHasUnsavedChanges(true);
   };
 
   const handleUpdateLink = (updatedLink: Link) => {
-    const updatedLinks = links.map((link) =>
-      link.id === updatedLink.id ? updatedLink : link
-    );
-    setLinks(updatedLinks);
+    setLinks((prevLinks) => {
+      const newLinks = prevLinks.map((link) =>
+        link.id === updatedLink.id ? { ...link, ...updatedLink } : link
+      );
+      console.log("Updated links:", newLinks);
+      return newLinks;
+    });
     setHasUnsavedChanges(true);
   };
 
   const handleRemoveLink = (id: string) => {
-    const updatedLinks = links.filter((link) => link.id !== id);
-    setLinks(updatedLinks);
+    setLinks((prevLinks) => (prevLinks || []).filter((link) => link.id !== id));
     setHasUnsavedChanges(true);
   };
 
   const handleSave = async () => {
     const userId = auth.currentUser?.uid;
-    if (!userId) return;
+    if (!userId || !links) return;
 
     setIsSaving(true);
     setSaveError(null);
 
     try {
-      await setDoc(doc(db, "links", userId), { links });
+      const validLinks = links.filter((link) => link.platform && link.url);
+      await setDoc(doc(db, "links", userId), { links: validLinks });
+      setLinks(validLinks); // Update the state to remove invalid links
       setHasUnsavedChanges(false);
+      console.log("Saved links:", validLinks);
     } catch (error) {
       console.error("Error saving links:", error);
       setSaveError("Failed to save changes. Please try again.");
@@ -110,7 +100,7 @@ export default function LinkEditor() {
         + Add new link
       </button>
 
-      {links.length === 0 ? (
+      {!links || links.length === 0 ? (
         <GetStartedSection />
       ) : (
         links.map((link, index) => (
@@ -126,9 +116,9 @@ export default function LinkEditor() {
       <div className="fixed mt-6 bottom-4 right-6">
         <button
           onClick={handleSave}
-          disabled={!hasUnsavedChanges || isSaving}
+          disabled={!hasUnsavedChanges || isSaving || !links}
           className={`bg-[#633CFF] text-white py-2 px-4 rounded-md transition-colors ${
-            !hasUnsavedChanges || isSaving
+            !hasUnsavedChanges || isSaving || !links
               ? "opacity-50 cursor-not-allowed"
               : "hover:bg-[#633CFF]"
           }`}
@@ -139,41 +129,4 @@ export default function LinkEditor() {
       </div>
     </div>
   );
-}
-
-{
-  /* {isAddingLink && (
-        <LinkForm
-          initialData={editingLink || undefined}
-          onClose={() => {
-            setIsAddingLink(false);
-            setEditingLink(null);
-          }}
-          onSave={handleAddLink}
-        />
-      )}
-      {links.length === 0 ? (
-        <GetStartedSection />
-      ) : (
-        <LinkList
-          links={links}
-          setLinks={(newLinks) => {
-            setLinks(newLinks);
-            setHasUnsavedChanges(true);
-          }}
-          onEditLink={handleEditLink}
-          onDeleteLink={handleDeleteLink}
-        />
-      )}
-      {hasUnsavedChanges && (
-        <div className="fixed bottom-6 right-6">
-          <button
-            onClick={handleSave}
-            className="bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors"
-          >
-            Save
-          </button>
-        </div>
-      )}
-    </div> */
 }

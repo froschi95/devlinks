@@ -9,4 +9,5 @@ export interface Profile {
   lastName: string;
   email: string;
   profilePicture?: string;
+  shareableId?: string;
 }
