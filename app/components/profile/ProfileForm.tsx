@@ -59,9 +59,11 @@ const ProfileForm = ({ initialData, onSave }: ProfileFormProps) => {
 
   return (
     <div className="bg-white h-screen">
-      <div>
-        <h2 className="text-2xl font-bold mb-4 ">Profile Details</h2>
-        <p>Add your details to create a personal touch to your profile.</p>
+      <div className="mb-10">
+        <h2 className="text-[2rem] font-bold mb-4 ">Profile Details</h2>
+        <p className="text-[#737373] text-base">
+          Add your details to create a personal touch to your profile.
+        </p>
       </div>
 
       <form
@@ -136,10 +138,10 @@ const ProfileForm = ({ initialData, onSave }: ProfileFormProps) => {
           </div>
 
           <div className="p-5 space-y-3 bg-[#FAFAFA] mb-28">
-            <div className="relative md:grid md:grid-cols-3">
+            <div className="relative md:grid md:grid-cols-3 md:items-center">
               <label
                 htmlFor="firstName"
-                className="block text-xs leading-[1.125rem]"
+                className="block text-[#737373] text-xs leading-[1.125rem]"
               >
                 First name*
               </label>
@@ -159,10 +161,10 @@ const ProfileForm = ({ initialData, onSave }: ProfileFormProps) => {
               )}
             </div>
 
-            <div className="relative md:grid md:grid-cols-3">
+            <div className="relative md:grid md:grid-cols-3 md:items-center">
               <label
                 htmlFor="lastName"
-                className="block text-xs leading-[1.125rem]"
+                className="block text-[#737373] text-xs leading-[1.125rem]"
               >
                 Last name*
               </label>
@@ -181,10 +183,10 @@ const ProfileForm = ({ initialData, onSave }: ProfileFormProps) => {
                 </span>
               )}
             </div>
-            <div className="relative md:grid md:grid-cols-3">
+            <div className="relative md:grid md:grid-cols-3 md:items-center">
               <label
                 htmlFor="email"
-                className="block text-xs leading-[1.125rem]"
+                className="block text-xs text-[#737373] leading-[1.125rem]"
               >
                 Email
               </label>

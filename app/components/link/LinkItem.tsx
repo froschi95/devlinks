@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "../../types";
 import Image from "next/image";
+import DropdownIcon from "../icons/DropdownIcon";
 
 interface LinkItemProps {
   link: Link;
@@ -136,7 +137,8 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
           ) : (
             "Select a platform"
           )}
-          <span className="ml-2">▼</span>
+          {/* <span className="ml-2">▼</span> */}
+          <DropdownIcon />
         </button>
         {isDropdownOpen && (
           <div className="absolute z-10 w-full bg-white border rounded-md mt-1 max-h-60 overflow-y-auto">
@@ -161,11 +163,13 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
           </div>
         )}
         {errors.platform && (
-          <p className="text-red-500 text-xs mt-1">{errors.platform}</p>
+          <p className="absolute text-red-600 text-xs right-8 bottom-4 mt-1">
+            {errors.platform}
+          </p>
         )}
       </div>
 
-      <div>
+      <div className="relative">
         <label className="block text-xs text-[#333333] font-medium mb-1">
           Link
         </label>
@@ -179,7 +183,9 @@ const LinkItem = ({ link, index, onUpdate, onRemove }: LinkItemProps) => {
           }`}
         />
         {errors.url && (
-          <p className="text-red-500 text-xs mt-1">{errors.url}</p>
+          <p className="absolute text-red-600 text-xs right-3 bottom-4 mt-1">
+            {errors.url}
+          </p>
         )}
       </div>
     </div>
