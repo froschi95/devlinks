@@ -12,7 +12,7 @@ export default function PublicPreview({
   links = [],
 }: PublicPreviewProps) {
   return (
-    <div className="relative w-[308px] h-[632px] mx-auto overflow-hidden sm:rounded-3xl sm:shadow-customCard">
+    <div className="relative w-[308px] h-fit mx-auto sm:rounded-3xl sm:shadow-customCard">
       <div className="relative flex flex-col items-center gap-14 p-6 h-full">
         <div className="flex flex-col items-center">
           <div className="mt-12 w-[6.5rem] h-[6.5rem] bg-gray-200 ring-4 ring-[#633CFF] rounded-full mb-4 overflow-hidden">
@@ -60,7 +60,6 @@ export default function PublicPreview({
                 <span className={`${getLinkStyles(link.platform)}`}>
                   <ArrowRight />
                 </span>
-                {/* {console.log(getLinkStyles(link.platform))} */}
               </a>
             ))}
         </div>

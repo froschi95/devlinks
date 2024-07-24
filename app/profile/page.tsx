@@ -69,7 +69,7 @@ const ProfilePage: React.FC = () => {
       <Header />
       <div className="flex-grow mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
-          <div className="hidden bg-white lg:grid lg:place-items-start lg:w-full h-full">
+          <div className="hidden bg-white lg:flex lg:w-full h-full">
             <div className="m-auto h-screen">
               <PreviewProfile profile={profile || undefined} links={links} />
             </div>

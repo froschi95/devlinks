@@ -12,22 +12,8 @@ export default function PreviewProfile({
   links = [],
 }: PreviewProfileProps) {
   return (
-    <div className="relative w-[308px] h-[632px] mx-auto overflow-hidden rounded-3xl">
-      {/* Background Image */}
-      <Image
-        src="/preview-section.svg"
-        alt="Background"
-        fill
-        sizes="(max-width: 308px) 100vw, 308px"
-        priority
-        className="object-cover"
-      />
-
-      {/* Overlay for better text visibility */}
-      <div className="absolute inset-0 bg-white bg-opacity-80 rounded-[3.2rem]"></div>
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-14 p-6 h-full">
+    <div className="relative w-[308px] h-fit mx-auto  sm:rounded-3xl sm:shadow-customCard">
+      <div className="relative flex flex-col items-center gap-14 p-6 h-full">
         <div className="flex flex-col items-center">
           <div className="mt-12 w-[6.5rem] h-[6.5rem] bg-gray-200 ring-4 ring-[#633CFF] rounded-full mb-4 overflow-hidden">
             {profile?.profilePicture && (
@@ -74,7 +60,6 @@ export default function PreviewProfile({
                 <span className={`${getLinkStyles(link.platform)}`}>
                   <ArrowRight />
                 </span>
-                {/* {console.log(getLinkStyles(link.platform))} */}
               </a>
             ))}
         </div>
